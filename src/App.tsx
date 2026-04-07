@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import TransactionForm from './components/TransactionForm';
+import Balance from "./components/Balance";
+import TransactionList from "./components/TransactionList";
 
 
 export interface Transaction {
@@ -31,8 +33,12 @@ function App() {
       <h1>Mon Budget Tracker</h1>
      
       <TransactionForm onAddTransaction={addTransaction} />
-      
-      {/* Le travail de l'Étudiant B viendra ici (Liste, Balance, Filtre) */}
+      <Balance transactions={transactions} />
+     <TransactionList
+        transactions={transactions}
+        setTransactions={setTransactions}
+        filter={}
+      />
     </div>
   );
 }
