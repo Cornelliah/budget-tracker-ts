@@ -39,7 +39,7 @@ const TransactionForm = ({ onAddTransaction }: Props) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
+        <form onSubmit={handleSubmit} className="form-container" id="transaction-form">
             <input
                 type="text"
                 placeholder="Titre (ex: Salaire)"
