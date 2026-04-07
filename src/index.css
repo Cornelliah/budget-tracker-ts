@@ -74,3 +74,30 @@ input,select {
   margin: 2px;
 
 }
+
+/* Couleurs par défaut (Clair) */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #232121;
+  --card-bg: #f4efed;
+}
+
+/* Couleurs Mode Sombre */
+.dark-mode {
+  --bg-color: #1a1a1a;
+  --text-color: #f4efed;
+  --card-bg: #2d2d2d;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.dark-mode input, 
+.dark-mode select {
+  background-color: var(--card-bg);
+  color: white;
+  border: 1px solid #444;
+}
+
+.dark-mode table {
+  color: white;
+}

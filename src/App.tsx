@@ -1,28 +1,19 @@
 import { useState, useEffect } from 'react';
 import TransactionForm from './components/TransactionForm';
-import Balance from "./components/Balance";
-import TransactionList from "./components/TransactionList";
-import Filter from "./components/Filter";
-
-
-export interface Transaction {
-    id: number;
-    title: string;
-    amount: number;
-    type: 'income' | 'expense'; 
-    date: string;
-}
+import TransactionList from './components/TransactionList';
+import Balance from './components/Balance';
+import Filter from './components/Filter';
+import type { Transaction } from './types';
 
 function App() {
-  // Initialisation : on essaie de charger les données existantes 
   const [transactions, setTransactions] = useState<Transaction[]>(() => {
     const saved = localStorage.getItem("transactions");
     return saved ? JSON.parse(saved) : [];
   });
 
-   const [filter, setFilter] = useState("all");
+  // 1. Créer le state pour le filtre [cite: 60]
+  const [filter, setFilter] = useState('all');
 
-  // Sauvegarde automatique dès que la liste change 
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
   }, [transactions]);
@@ -31,14 +22,33 @@ function App() {
     setTransactions([...transactions, newTx]);
   };
 
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Appliquer la classe au body
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [darkMode]);
+
   return (
-    <div>
-      <h1>Mon Budget Tracker</h1>
-     
-      <TransactionForm onAddTransaction={addTransaction} />
-      <Filter filter={filter} setFilter={setFilter} />
+    <div id="center">
+      <button onClick={() => setDarkMode(!darkMode)}>
+        {darkMode ? "☀️ Mode Clair" : "🌙 Mode Sombre"}
+      </button>
+      <h1>Budget Tracker</h1>
+
       <Balance transactions={transactions} />
-     <TransactionList
+
+      {/* 2. Passer le state et la fonction au composant Filter */}
+      <Filter filter={filter} setFilter={setFilter} />
+
+      <TransactionForm onAddTransaction={addTransaction} />
+
+      {/* 3. Passer le filtre à la liste pour l'affichage [cite: 100] */}
+      <TransactionList
         transactions={transactions}
         setTransactions={setTransactions}
         filter={filter}
