@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import TransactionForm from './components/TransactionForm';
 import Balance from "./components/Balance";
 import TransactionList from "./components/TransactionList";
+import Filter from "./components/Filter";
 
 
 export interface Transaction {
@@ -19,6 +20,8 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
+   const [filter, setFilter] = useState("all");
+
   // Sauvegarde automatique dès que la liste change 
   useEffect(() => {
     localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -33,11 +36,12 @@ function App() {
       <h1>Mon Budget Tracker</h1>
      
       <TransactionForm onAddTransaction={addTransaction} />
+      <Filter filter={filter} setFilter={setFilter} />
       <Balance transactions={transactions} />
      <TransactionList
         transactions={transactions}
         setTransactions={setTransactions}
-        filter={}
+        filter={filter}
       />
     </div>
   );
